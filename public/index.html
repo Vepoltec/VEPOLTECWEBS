@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trivia</title>
+    <link rel="stylesheet" href="css/styles.css"> <!-- Enlaza tu archivo CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+      <!-- Logo de la página -->
+      <div id="logo-container">
+        <!-- Imagen del logo que cambia dinámicamente con JavaScript -->
+        <img src="images/logo-normal.png" alt="Logo de la página" id="logo">
+    </div>
+
+
+    <!-- Contenedor del carrusel de imágenes -->
+    <div id="ad-frame">
+        <div class="ad-images visible"> <!-- Mantén la clase visible aquí -->
+            <!-- Solo 3 imágenes visibles a la vez, actualizadas dinámicamente -->
+            <img src="images/1.jpg" alt="Imagen 1">
+            <img src="images/2.jpg" alt="Imagen 2">
+            <img src="images/3.jpg" alt="Imagen 3">
+        </div>
+    </div>
+
+    <!-- Pantalla inicial con las opciones -->
+    <div id="main-screen">
+        <div class="segment" onclick="showScreen('tecnologia')">Tecnología</div>
+        <div class="segment" onclick="showScreen('accesorios')">Accesorios</div>
+        <div class="segment" onclick="showScreen('telefonos')">Teléfonos</div>
+        <div class="segment" onclick="showScreen('oficina')">Para la Ofi</div>
+    </div>
+
+    <!-- Pantallas de las distintas opciones -->
+    <div class="screen" id="telefonos">
+        <h2>Pantalla de Teléfonos</h2>
+        <p>Contenido sobre productos de teléfonos.</p>
+        <button onclick="goBack()">Volver</button>
+    </div>
+
+    <div class="screen" id="accesorios">
+        <h2>Pantalla de Accesorios</h2>
+        <p>Contenido sobre accesorios.</p>
+        <button onclick="goBack()">Volver</button>
+    </div>
+
+    <div class="screen" id="oficina">
+        <h2>Pantalla para la Oficina</h2>
+        <p>Contenido sobre productos para la oficina.</p>
+        <button onclick="goBack()">Volver</button>
+    </div>
+
+    <div class="screen" id="tecnologia">
+        <h2>Pantalla de Artículos de Tecnología</h2>
+        <p>Contenido sobre artículos tecnológicos.</p>
+        <button onclick="goBack()">Volver</button>
+    </div>
+
+    <!-- Incluye el archivo JS que maneja las funciones showScreen, goBack, y el carrusel -->
+    <script src="js/script.js"></script>
+
+</body>
+</html>

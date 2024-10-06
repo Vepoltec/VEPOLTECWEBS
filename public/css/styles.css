@@ -1,0 +1,258 @@
+
+/* Estilo general del cuerpo */
+body {
+    font-family: 'Montserrat', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000000; /* Fondo blanco por defecto */
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    transition: background 0.5s ease-in-out;
+}
+/* Estilo especial para cuando el mouse se mueve */
+body.reveal-bg {
+    background-color: #ffffff; /* Fondo blanco */
+    background-image: radial-gradient(circle at center, transparent 150px, rgba(0, 0, 0, 0.25) 220px, rgba(0, 0, 0, 0.85) 300px), 
+                      url('images/fondo.jpg'); /* Imagen oscura para el fondo */
+    background-size: cover;
+    background-position: center;
+    transition: background 0.1s ease-in-out;
+}
+
+h1, h2, h3, button, .segment {
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 700;
+    color: white; /* Para mantener el texto visible sobre el fondo */
+}
+
+/* Restablecer el efecto si el ratón se deja quieto */
+body.reset-bg {
+    background-color: #ffffff; /* Fondo blanco cuando se deja de mover el ratón */
+    background-image: none; /* Eliminar la imagen de fondo */
+}
+
+/* Pantallas de contenido ocultas por defecto */
+.screen {
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(255, 255, 255);
+    z-index: 1;
+    text-align: center;
+    transition: opacity 0.5s ease-in-out, visibility 0s 0.5s;
+}
+
+/* Pantallas activas */
+.screen.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-in-out;
+    visibility: visible;
+}
+
+
+/* Estilos para los títulos dentro de las pantallas (h2) */
+.screen h2 {
+    font-size: 2rem; /* Tamaño de la fuente */
+    font-weight: 700; /* Negrita */
+    color: #333; /* Color del texto */
+    margin-bottom: 20px; /* Espaciado debajo del título */
+    text-align: center; /* Centrar el texto */
+}
+
+/* Estilos para el contenido principal (botones) */
+#main-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 20px;
+    margin-top: 50px;
+}
+
+/* Estilos para cada botón de selección (segmentos) */
+.segment {
+    background-color: #e0e0e0;
+    padding: 20px;
+    margin: 10px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    width: 150px;
+    color: rgb(0, 0, 0);
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* Cambia de color al pasar el mouse */
+.segment:hover {
+    transform: scale(1.05);
+    background-color: #007bff;
+    color: white;
+}
+
+/* Estilos para los botones de acción */
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-weight: 400;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+button:hover {
+    background-color: #e91111;
+    transform: scale(1.05);
+}
+
+/* Contenedor del carrusel */
+#ad-frame {
+    width: 80%;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: #e0e0e0;
+    border-radius: 15px;
+    padding: 20px 0;
+}
+
+/* Contenedor de imágenes dentro del carrusel */
+.ad-images {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 250px;
+    position: relative;
+}
+
+.ad-images img {
+    width: 30%;
+    height: 100%;
+    object-fit: contain;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    position: relative;
+    max-width: 100%;
+    height: auto;
+}
+
+.ad-images.visible img {
+    opacity: 1;
+    position: relative;
+}
+
+/* Estilos para el carrusel en móviles (solo una imagen visible a la vez) */
+.mobile-view .ad-images {
+    display: flex;
+    justify-content: center; /* Centrar la imagen */
+}
+
+.mobile-view .ad-images img {
+    width: 100%; /* La imagen ocupa todo el ancho */
+    height: auto;
+    opacity: 0; /* Seguimos aplicando el desvanecimiento */
+    position: absolute; /* Apilamos las imágenes para que solo una sea visible */
+}
+
+.mobile-view .ad-images.visible img {
+    opacity: 1; /* Solo la imagen visible tendrá opacidad 1 */
+}
+
+/* Estilo especial para dispositivos móviles: imagen de fondo movible */
+.mobile-view body {
+    background-size: cover;
+    background-position: center; /* Posición inicial centrada */
+    touch-action: none; /* Desactivar la acción predeterminada del navegador para gestionar el arrastre manualmente */
+}
+
+/* Asegurar que el contenedor no crezca demasiado */
+.ad-images img:last-child {
+    margin-right: 0;
+}
+
+/* Estilo para el contenedor del logo */
+#logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 55px;
+}
+
+#logo {
+    max-width: 200px;
+    height: auto;
+}
+
+/* Media Queries para pantallas pequeñas */
+
+/* Ajustes para tabletas */
+@media (max-width: 768px) {
+    #main-screen {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .segment {
+        width: 100%;
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    #ad-frame {
+        width: 90%;
+    }
+
+    .ad-images {
+        height: 200px;
+    }
+}
+
+/* Ajustes para móviles */
+@media (max-width: 480px) {
+    #main-screen {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .segment {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    button {
+        width: 90%;
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    #ad-frame {
+        width: 95%;
+    }
+
+    .ad-images {
+        height: 150px;
+    }
+
+    #logo {
+        max-width: 150px;
+    }
+}
+
