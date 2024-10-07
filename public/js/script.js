@@ -44,15 +44,23 @@ document.addEventListener('DOMContentLoaded', function () {
             // Actualizar las posiciones de inicio para el siguiente movimiento
             startX = touch.clientX;
             startY = touch.clientY;
-        }, { passive: false });  // Asegurarse de que el listener no es pasivo
+
+            // Cambiar el logo a su versión invertida
+            logo.src = 'images/logo-invertido.png';
+
+            // Evitar cancelar la solicitud de la imagen. Esperar un poco más.
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(function() {
+                logo.src = 'images/logo-normal.png'; // Volver al logo normal después de un tiempo
+            }, 3000);  // Aumentar el tiempo de espera en móviles
+        }, { passive: false });
+
     } else {
         // Aplicar configuraciones para escritorio
         body.classList.add('desktop-view');
-    }
 
-    // Evento que se activa cuando se mueve el mouse (en escritorio)
-    window.addEventListener('mousemove', function (e) {
-        if (!isMobile) {
+        // Evento que se activa cuando se mueve el mouse (en escritorio)
+        window.addEventListener('mousemove', function (e) {
             const mouseX = e.clientX;
             const mouseY = e.clientY;
 
@@ -61,8 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 url('images/fondo.jpg')
             `;
 
-            // Cambiar el logo en escritorio
-            logo.src = 'images/logo-invertido.png';
+            logo.src = 'images/logo-invertido.png';  // Cambiar a logo invertido
 
             body.classList.add('reveal-bg');
             body.classList.remove('reset-bg');
@@ -73,23 +80,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 body.classList.add('reset-bg');
                 body.classList.remove('reveal-bg');
                 body.style.backgroundImage = 'none';
-                
-                // Restaurar el logo normal en escritorio
-                logo.src = 'images/logo-normal.png';
-            }, 2000);
-        }
-    });
-
-    // Evento que se activa cuando el fondo se mueve en móviles
-    body.addEventListener('touchmove', function() {
-        // Cambiar el logo en móviles
-        logo.src = 'images/logo-invertido.png';
-
-        // Restaurar el logo normal cuando el usuario deja de mover el dedo
-        setTimeout(function() {
-            logo.src = 'images/logo-normal.png';
-        }, 2000);
-    }, { passive: false });
+                logo.src = 'images/logo-normal.png'; // Volver al logo normal
+            }, 2000);  // Cambia a logo normal después de 2 segundos
+        });
+    }
 
     // Grupos de imágenes para el carrusel
     let currentGroupIndex = 0;
@@ -175,12 +169,6 @@ document.addEventListener('DOMContentLoaded', function () {
             mainScreen.style.display = 'flex';
         }
     }
-
-    // Exponer las funciones a nivel global
-    window.showScreen = showScreen;
-    window.goBack = goBack;
-});
-
 
     // Exponer las funciones a nivel global
     window.showScreen = showScreen;
