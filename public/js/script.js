@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 url('images/fondo.jpg')
             `;
 
+            // Cambiar el logo en escritorio
             logo.src = 'images/logo-invertido.png';
 
             body.classList.add('reveal-bg');
@@ -72,10 +73,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 body.classList.add('reset-bg');
                 body.classList.remove('reveal-bg');
                 body.style.backgroundImage = 'none';
+                
+                // Restaurar el logo normal en escritorio
                 logo.src = 'images/logo-normal.png';
             }, 2000);
         }
     });
+
+    // Evento que se activa cuando el fondo se mueve en móviles
+    body.addEventListener('touchmove', function() {
+        // Cambiar el logo en móviles
+        logo.src = 'images/logo-invertido.png';
+
+        // Restaurar el logo normal cuando el usuario deja de mover el dedo
+        setTimeout(function() {
+            logo.src = 'images/logo-normal.png';
+        }, 2000);
+    }, { passive: false });
 
     // Grupos de imágenes para el carrusel
     let currentGroupIndex = 0;
@@ -161,6 +175,12 @@ document.addEventListener('DOMContentLoaded', function () {
             mainScreen.style.display = 'flex';
         }
     }
+
+    // Exponer las funciones a nivel global
+    window.showScreen = showScreen;
+    window.goBack = goBack;
+});
+
 
     // Exponer las funciones a nivel global
     window.showScreen = showScreen;
