@@ -10,53 +10,32 @@ document.addEventListener('DOMContentLoaded', function () {
     if (isMobile) {
         // Aplicar configuraciones específicas para móviles
         body.classList.add('mobile-view');
-        
-        // Variables para el desplazamiento del fondo
-        let startX = 0, startY = 0, backgroundX = 50, backgroundY = 50;
 
-        // Evento al comenzar el toque (cuando el usuario toca la pantalla)
-        body.addEventListener('touchstart', function(e) {
-            // Obtener la posición inicial del dedo en X e Y
-            const touch = e.touches[0];
-            startX = touch.clientX;
-            startY = touch.clientY;
-        });
-
-        // Evento al mover el dedo (arrastrar), listener no pasivo
+        // Evento al mover el dedo (simular linterna)
         body.addEventListener('touchmove', function(e) {
-            e.preventDefault();  // Evitar la acción predeterminada de desplazamiento de la página
-
             const touch = e.touches[0];
-            const deltaX = touch.clientX - startX;
-            const deltaY = touch.clientY - startY;
+            const touchX = touch.clientX;
+            const touchY = touch.clientY;
 
-            // Actualizar las posiciones de fondo en porcentaje
-            backgroundX += deltaX * 0.1;  // Ajustar la sensibilidad del arrastre
-            backgroundY += deltaY * 0.1;
+            // Crear el efecto linterna alrededor del dedo
+            body.style.backgroundImage = `
+                radial-gradient(circle at ${touchX}px ${touchY}px, transparent 150px, rgba(0, 0, 0, 0.25) 220px, rgba(0, 0, 0, 0.85) 300px),
+                url('images/fondo.jpg')
+            `;
 
-            // Limitar los valores para que la imagen no se salga del contenedor
-            backgroundX = Math.max(0, Math.min(100, backgroundX));
-            backgroundY = Math.max(0, Math.min(100, backgroundY));
-
-            // Aplicar la nueva posición de fondo
-            body.style.backgroundPosition = `${backgroundX}% ${backgroundY}%`;
-
-            // Actualizar las posiciones de inicio para el siguiente movimiento
-            startX = touch.clientX;
-            startY = touch.clientY;
-
-            // Cambiar el logo a su versión invertida
+            // Cambiar el logo a la versión invertida
             logo.src = 'images/logo-invertido.png';
 
-            // Evitar cancelar la solicitud de la imagen. Esperar un poco más.
+            // Restablecer el logo y el fondo a blanco después de un tiempo
             clearTimeout(timeoutId);
             timeoutId = setTimeout(function() {
-                logo.src = 'images/logo-normal.png'; // Volver al logo normal después de un tiempo
-            }, 3000);  // Aumentar el tiempo de espera en móviles
+                body.style.backgroundImage = 'none';  // Fondo blanco
+                body.style.backgroundColor = '#ffffff';  // Asegurarse de que sea blanco
+                logo.src = 'images/logo-normal.png';  // Volver al logo normal
+            }, 3000);  // Esperar 3 segundos de inactividad
         }, { passive: false });
-
     } else {
-        // Aplicar configuraciones para escritorio
+        // Configuraciones para escritorio (efecto linterna con el mouse)
         body.classList.add('desktop-view');
 
         // Evento que se activa cuando se mueve el mouse (en escritorio)
@@ -64,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const mouseX = e.clientX;
             const mouseY = e.clientY;
 
+            // Crear el efecto linterna alrededor del puntero
             body.style.backgroundImage = `
                 radial-gradient(circle at ${mouseX}px ${mouseY}px, transparent 150px, rgba(0, 0, 0, 0.25) 220px, rgba(0, 0, 0, 0.85) 300px),
                 url('images/fondo.jpg')
@@ -71,17 +51,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             logo.src = 'images/logo-invertido.png';  // Cambiar a logo invertido
 
-            body.classList.add('reveal-bg');
-            body.classList.remove('reset-bg');
-
             clearTimeout(timeoutId);
-
             timeoutId = setTimeout(function () {
-                body.classList.add('reset-bg');
-                body.classList.remove('reveal-bg');
-                body.style.backgroundImage = 'none';
-                logo.src = 'images/logo-normal.png'; // Volver al logo normal
-            }, 2000);  // Cambia a logo normal después de 2 segundos
+                body.style.backgroundImage = 'none';  // Eliminar el fondo linterna después de la inactividad
+                body.style.backgroundColor = '#ffffff';  // Fondo blanco
+                logo.src = 'images/logo-normal.png';  // Volver al logo normal
+            }, 2000);  // 2 segundos de inactividad
         });
     }
 
@@ -101,20 +76,15 @@ document.addEventListener('DOMContentLoaded', function () {
     function changeImageGroup() {
         adImagesContainer.classList.remove('visible'); // Ocultar imágenes antes del cambio
         setTimeout(() => {
-            // Cambiar el comportamiento según el dispositivo
             if (isMobile) {
                 // Mostrar solo una imagen a la vez en móviles
                 currentGroupIndex = (currentGroupIndex + 1) % adImages.length;
 
                 adImages.forEach((img, index) => {
-                    if (index === currentGroupIndex) {
-                        img.style.opacity = 1; // Mostrar solo la imagen actual
-                    } else {
-                        img.style.opacity = 0; // Ocultar las demás
-                    }
+                    img.style.opacity = index === currentGroupIndex ? 1 : 0; // Mostrar solo la imagen actual
                 });
             } else {
-                // Comportamiento normal de 3 imágenes distribuidas en horizontal para escritorio
+                // Comportamiento de 3 imágenes para escritorio
                 currentGroupIndex = (currentGroupIndex + 1) % imageGroups.length;
                 const newImages = imageGroups[currentGroupIndex];
 
